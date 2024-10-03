@@ -43,6 +43,7 @@ else:
 
 #print(xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['Date'].range("G3").value)
 if nrReceptie == lastCell:
+    verificareCrotal = wb.range("E9" + ":E" + str(lastCell)).value
     nrCrotal = wb.range("E" + str(nrReceptie)).value
     # Se verifica daca celulele sunt goale
     if wb.range("C" + str(nrReceptie)).value is None:
@@ -104,6 +105,7 @@ if nrReceptie == lastCell:
 else:
     nrCriteriu = wb.range("C" + str(nrReceptie) + ":C" + str(lastCell)).value
     nrCrotal = wb.range("E" + str(nrReceptie) + ":E" + str(lastCell)).value
+    verificareCrotal = wb.range("E9" + ":E" + str(lastCell)).value
     varsta = wb.range("G" + str(nrReceptie) + ":G" + str(lastCell)).value
     sex = wb.range("H" + str(nrReceptie) + ":H" + str(lastCell)).value
     rasa = wb.range("I" + str(nrReceptie) + ":I" + str(lastCell)).value
@@ -167,8 +169,6 @@ doctor = int(xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['D
 
 listRasa = ["AB ANGUS", "AYRS", "BIVOL", "BU", "BB", "BMM", "BN", "BNR", "BR", "BRAUN", "BRUNA", "CHAROL", "FLECK", "FRIZA", "HER", "HOLL", "JER", "LYM", "MET", "MONTB", "PINZG", "RED HOLL", "RED HOOL", "SIMENT", "SURA", "AUBRAC", "HG"
                                                                                                                                                                                                                              ""]
-
-
 contineRasa = False
 
 if nrReceptie == lastCell:
@@ -192,6 +192,20 @@ else:
             ctypes.windll.user32.MessageBoxW(0, "Reintrodu rasa de la pozitia:" + str(i + nrReceptie - 8), "Rasa incorecta", 0)
             sys.exit()
         contineRasa = False
+
+# Verificare crotale duplicate
+
+for i in range(lastCell - 8):
+    for j in range(lastCell - 8):
+
+        if i == j:
+            pass
+        elif verificareCrotal[i] == verificareCrotal[j]:
+            ctypes.windll.user32.MessageBoxW(0, "Crotalul " + verificareCrotal[i] + " este duplicat la pozitia " + str(i) + " si pozitia " + str(j),
+                                             "Crotal duplicat", 0)
+            sys.exit()
+
+
 
 # Se selecteaza o celula goala pentru a evita o eroare
 wb.range("E1").select()
@@ -245,7 +259,7 @@ if nrReceptie == lastCell:
     pyautogui.typewrite(nrCrotal)
     pyautogui.press("enter")
     pyautogui.press("enter")
-    pyautogui.typewrite(nrCrotal[:2])
+    pyautogui.typewrite("UE")
     pyautogui.press("enter")
     pyautogui.typewrite(nrPasaport)
     pyautogui.press("enter")
@@ -294,7 +308,7 @@ else:
     pyautogui.press("enter")
     pyautogui.press("enter")
 
-    pyautogui.typewrite(nrCrotal[0][:2])
+    pyautogui.typewrite("UE")
     pyautogui.press("enter")
 
     pyautogui.typewrite(nrPasaport[0])
@@ -328,7 +342,7 @@ else:
     pyautogui.press("enter")
     pyautogui.press("f2")
     pyautogui.press("f2")
-    time.sleep(1)
+    time.sleep(3)
 
     for i in range(1,len(propietar)):
         if propietarAnterior != propietar[i]:
@@ -355,7 +369,7 @@ else:
             time.sleep(1)
             pyautogui.press("enter")
 
-            pyautogui.typewrite(nrCrotal[i][:2])
+            pyautogui.typewrite("UE")
             pyautogui.press("enter")
 
             pyautogui.typewrite(nrPasaport[i])
@@ -389,7 +403,7 @@ else:
             pyautogui.press("enter")
             pyautogui.press("f2")
             pyautogui.press("f2")
-            time.sleep(1)
+            time.sleep(3)
             propietarAnterior = propietar[i]
         else:
             pyautogui.press("enter")
@@ -399,7 +413,7 @@ else:
             pyautogui.press("enter")
             pyautogui.press("enter")
 
-            pyautogui.typewrite(nrCrotal[i][:2])
+            pyautogui.typewrite("UE")
             pyautogui.press("enter")
 
             pyautogui.typewrite(nrPasaport[i])
@@ -425,11 +439,11 @@ else:
             pyautogui.press("enter")
             pyautogui.press("f2")
             pyautogui.press("f2")
-            time.sleep(1)
+            time.sleep(3)
             propietarAnterior = propietar[i]
     pyautogui.press("f4")
     pyautogui.press("d")
-    time.sleep(1)
+    time.sleep(3)
 
 
 #Memorare in excel urmatoarea introducere
@@ -438,8 +452,6 @@ xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['Date'].range("
 # Inchidere post P01
 app.VIF5_7.child_window(title="Închidere", control_type="Button").click()
 pyautogui.press("enter")
-
-
 
 #Validare date in p02
 
@@ -497,3 +509,6 @@ else:
 app.VIF5_7.child_window(title="Închidere", control_type="Button").click()
 pyautogui.press("enter")
 
+# Salvare fisier excel
+
+xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").save()
