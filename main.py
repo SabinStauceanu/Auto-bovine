@@ -15,7 +15,11 @@ pyautogui.FAILSAFE = False
 pydirectinput.FAILSAFE = False
 
 # Selectare sheet Foaie1 inainte de rularea programului
-xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['Foaie1'].select()
+try:
+    xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['Foaie1'].select()
+except:
+    ctypes.windll.user32.MessageBoxW(0, "Te rog selecteaza sheet-ul Foaie1", "Eroare selectie sheet!", 0)
+    sys.exit()
 
 #Extragere date din excelul de bovine
 
@@ -48,7 +52,7 @@ if nrReceptie == lastCell:
     # Se verifica daca celulele sunt goale
     if wb.range("C" + str(nrReceptie)).value is None:
         wb.range("C" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(nrReceptie - 8),"Nr criteriu lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(nrReceptie - 7),"Nr criteriu lipsa!", 0)
         sys.exit()
     else:
         nrCriteriu = wb.range("C" + str(nrReceptie)).value
@@ -177,8 +181,8 @@ if nrReceptie == lastCell:
             contineRasa = True
             break
     if contineRasa == False:
-        wb.range("I" + str(nrReceptie + i)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Reintrodu rasa de la pozitia:" + str(i + nrReceptie - 8), "Rasa incorecta", 0)
+        wb.range("I" + str(nrReceptie)).color = (235, 52, 52)
+        ctypes.windll.user32.MessageBoxW(0, "Reintrodu rasa de la pozitia:" + str(nrReceptie - 8), "Rasa incorecta", 0)
         sys.exit()
 else:
     for i in range(len(rasa)):
@@ -193,6 +197,25 @@ else:
             sys.exit()
         contineRasa = False
 
+# Verificare sex animal
+
+if nrReceptie == lastCell:
+    if sex == "F" or sex == "M":
+       print("")
+    else:
+        wb.range("H" + str(nrReceptie)).color = (235, 52, 52)
+        ctypes.windll.user32.MessageBoxW(0, "Reintrodu sexul de la pozitia:" + str(nrReceptie - 8), "Sex incorect", 0)
+        sys.exit()
+else:
+    for i in range(len(rasa)):
+        if sex[i] == "F" or sex[i] == "M":
+            continue
+        else:
+            wb.range("H" + str(nrReceptie + i)).color = (235, 52, 52)
+            ctypes.windll.user32.MessageBoxW(0, "Reintrodu sexul de la pozitia:" + str(i + nrReceptie - 8), "Sex incorect", 0)
+            sys.exit()
+        contineRasa = False
+
 # Verificare crotale duplicate
 
 for i in range(lastCell - 8):
@@ -201,7 +224,7 @@ for i in range(lastCell - 8):
         if i == j:
             pass
         elif verificareCrotal[i] == verificareCrotal[j]:
-            ctypes.windll.user32.MessageBoxW(0, "Crotalul " + verificareCrotal[i] + " este duplicat la pozitia " + str(i) + " si pozitia " + str(j),
+            ctypes.windll.user32.MessageBoxW(0, "Crotalul " + verificareCrotal[i] + " este duplicat la pozitia " + str(i+1) + " si pozitia " + str(j+1),
                                              "Crotal duplicat", 0)
             sys.exit()
 
@@ -475,7 +498,7 @@ time.sleep(1)
 pyautogui.press("enter", presses=4)
 pyautogui.press('b')
 pyautogui.press('e')
-time.sleep(1)
+time.sleep(2)
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
     pyautogui.typewrite("10301")
@@ -502,12 +525,15 @@ else:
                 pydirectinput.press("enter")
                 crotaleSortate.pop(j)
                 pydirectinput.press("f2")
-                time.sleep(1.5)
+                time.sleep(2.5)
                 break
 
 # Inchidere post P02
 app.VIF5_7.child_window(title="Închidere", control_type="Button").click()
 pyautogui.press("enter")
+
+#Memorare in excel urmatoarea introducere (asta este pentru cand se face doar P02)
+xw.Book("C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls").sheets['Date'].range("G3").value = lastCell - 7
 
 # Salvare fisier excel
 
