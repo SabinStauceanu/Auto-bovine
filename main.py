@@ -241,7 +241,6 @@ if caps_status==1:
     pyautogui.press("capslock")
 
 #Introducere date in p01
-
 app = Application(backend="uia").start("C:\\vifout\\Putty\\putty.exe")
 pid = application.process_from_module(module = "C:\\vifout\\Putty\\putty.exe")
 #app.PuTTYConfiguration.print_control_identifiers()
@@ -511,6 +510,7 @@ if nrReceptie == lastCell:
     pydirectinput.press("f2")
 else:
     for i in range(len(propietar)):
+        time.sleep(1)
         pyautogui.hotkey('ctrl', 'o')
         pyautogui.typewrite("10301")
         pyautogui.press("enter")
