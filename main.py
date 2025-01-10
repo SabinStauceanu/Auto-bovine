@@ -259,6 +259,7 @@ listaCrotale= [
 #Introducere date in p01
 
 deschidereConsola("p01")
+
 pyautogui.press('r')
 pyautogui.press('e')
 pyautogui.press('enter', presses=2)
@@ -372,7 +373,7 @@ else:
     pyautogui.press("f2")
     pyautogui.press("f2")
     time.sleep(3)
-
+    
     listaCrotale.append(nrCrotal[0])
 
     for i in range(1,len(propietar)):
@@ -534,7 +535,7 @@ deschidereConsola("p02")
 # pp.VIF5_7.print_control_identifiers()
 pyautogui.press('b')
 pyautogui.press('e')
-time.sleep(1)
+time.sleep(2)
 
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
@@ -546,16 +547,19 @@ if nrReceptie == lastCell:
     pydirectinput.press("enter")
     pydirectinput.press("f2")
 else:
+
     for i in range(len(listaCrotale)):
         pyautogui.hotkey('ctrl', 'o')
         pyautogui.typewrite("10301")
         pyautogui.press("enter")
         pyautogui.press("f2")
         pyautogui.press("enter")
+
         pyautogui.typewrite(listaCrotale[i])
         pydirectinput.press("enter")
         pydirectinput.press("f2")
         time.sleep(2.5)
+
 
 # Inchidere post P02
 app.VIF5_7.child_window(title="Închidere", control_type="Button").click()
@@ -567,3 +571,4 @@ xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value = lastCell - 7
 # Salvare fisier excel
 
 xw.Book(caleExcel).save()
+
