@@ -12,7 +12,7 @@ caleExcel = "C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls"
 calePutty = "C:\\vifout\\Putty\\putty.exe"
 foaieCalculReceptii = 'Foaie1'
 foaieCalculAutomat = 'Date'
-denumireButonInchidere = 'Close'
+denumireButonInchidere = 'Închidere'
 
 # Functie deschidere consola putty
 
@@ -27,6 +27,7 @@ def deschidereConsola(postLucru):
     btnOpen.click()
     time.sleep(1)
     app = Application(backend="uia").connect(process=pid)
+    time.sleep(1)
     pyautogui.typewrite(postLucru)
     pyautogui.press("enter")
     time.sleep(1)
@@ -45,20 +46,9 @@ except:
 #Extragere date din excelul de bovine
 
 wb = xw.Book(caleExcel).sheets[foaieCalculReceptii]
-today = date.today()
-formatted_date = today.strftime('%m.%d.%Y')
-if xw.Book(caleExcel).sheets[foaieCalculAutomat].range("I9").value != formatted_date:
-    xw.Book(caleExcel).sheets[foaieCalculAutomat].range("I9").value = formatted_date
-    xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value = ""
 
 lastCell = wb.range('E' + str(wb.cells.last_cell.row)).end('up').row
-nrReceptie = 0
-
-if xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value is None:
-    nrReceptie = 9
-else:
-    nrReceptie = int(xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value)
-    nrReceptie = nrReceptie + 8
+nrReceptie = 9
 
 if nrReceptie == lastCell:
     verificareCrotal = wb.range("E9" + ":E" + str(lastCell)).value
