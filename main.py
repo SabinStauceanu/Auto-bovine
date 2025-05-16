@@ -527,6 +527,7 @@ pyautogui.press('b')
 pyautogui.press('e')
 time.sleep(1)
 
+ 
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
     pyautogui.typewrite("10301")
