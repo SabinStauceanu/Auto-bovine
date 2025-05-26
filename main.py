@@ -7,13 +7,31 @@ from xlwings import Range, constants
 import pydirectinput
 from datetime import date
 import win32api, win32con
+import ctypes, sys
+from pathlib import Path
 
-caleExcel = "C:\\Users\\CALITATE\\Desktop\\BOVINA PUTTY.xls"
-calePutty = "C:\\vifout\\Putty\\putty.exe"
-foaieCalculReceptii = 'Foaie1'
-foaieCalculAutomat = 'Date'
-denumireButonInchidere = 'Închidere'
+# script_dir = str(Path(__file__).parent)
 
+# Citire datele de import dintrun fisier si atribuirea pe variabile
+
+# f = open(script_dir + "\\data\\settings.txt", "r")
+
+# Calea relativa catre fisierul settings din folderul data
+
+f = open("data\\settings.txt", "r")
+
+lines = f.readlines()
+
+f.close()
+
+for i in range (len(lines)):
+    lines[i] = lines[i].replace("\n","")
+
+caleExcel = lines[0]
+calePutty = lines[1]
+foaieCalculReceptii = lines[2]
+foaieCalculAutomat = lines[3]
+denumireButonInchidere = lines[4]
 # Functie deschidere consola putty
 
 def deschidereConsola(postLucru):
@@ -33,6 +51,7 @@ def deschidereConsola(postLucru):
     time.sleep(1)
     pyautogui.press("enter", presses=4)
 
+
 pyautogui.FAILSAFE = False
 pydirectinput.FAILSAFE = False
 
@@ -43,7 +62,7 @@ except:
     ctypes.windll.user32.MessageBoxW(0, "Te rog selecteaza sheet-ul Foaie1", "Eroare selectie sheet!", 0)
     sys.exit()
 
-#Extragere date din excelul de bovine
+# Extragere date din excelul de bovine
 
 wb = xw.Book(caleExcel).sheets[foaieCalculReceptii]
 
@@ -56,55 +75,60 @@ if nrReceptie == lastCell:
     # Se verifica daca celulele sunt goale
     if wb.range("C" + str(nrReceptie)).value is None:
         wb.range("C" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(nrReceptie - 7),"Nr criteriu lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(nrReceptie - 7), "Nr criteriu lipsa!",
+                                         0)
         sys.exit()
     else:
         nrCriteriu = wb.range("C" + str(nrReceptie)).value
     if wb.range("G" + str(nrReceptie)).value is None:
         wb.range("G" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste varsta la pozitia:" + str(nrReceptie - 8),"Varsta lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste varsta la pozitia:" + str(nrReceptie - 8), "Varsta lipsa!", 0)
         sys.exit()
     else:
         varsta = wb.range("G" + str(nrReceptie)).value
     if wb.range("H" + str(nrReceptie)).value is None:
         wb.range("H" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste sexul la pozitia:" + str(nrReceptie - 8),"Sex lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste sexul la pozitia:" + str(nrReceptie - 8), "Sex lipsa!", 0)
         sys.exit()
     else:
         sex = wb.range("H" + str(nrReceptie)).value
     if wb.range("I" + str(nrReceptie)).value is None:
         wb.range("I" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste rasa la pozitia:" + str(nrReceptie - 8),"Rasa lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste rasa la pozitia:" + str(nrReceptie - 8), "Rasa lipsa!", 0)
         sys.exit()
     else:
         rasa = wb.range("I" + str(nrReceptie)).value
     if wb.range("J" + str(nrReceptie)).value is None:
         wb.range("J" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste propietarul la pozitia:" + str(nrReceptie - 8),"Propietar lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste propietarul la pozitia:" + str(nrReceptie - 8),
+                                         "Propietar lipsa!", 0)
         sys.exit()
     else:
         propietar = wb.range("J" + str(nrReceptie)).value
     if wb.range("K" + str(nrReceptie)).value is None:
         wb.range("K" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste localitatea la pozitia:" + str(nrReceptie - 8),"Localitate lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste localitatea la pozitia:" + str(nrReceptie - 8),
+                                         "Localitate lipsa!", 0)
         sys.exit()
     else:
         localitate = wb.range("K" + str(nrReceptie)).value
     if wb.range("L" + str(nrReceptie)).value is None:
         wb.range("L" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste cod exploatatie la pozitia:" + str(nrReceptie - 8),"Cod exp lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste cod exploatatie la pozitia:" + str(nrReceptie - 8),
+                                         "Cod exp lipsa!", 0)
         sys.exit()
     else:
         codExploatatie = wb.range("L" + str(nrReceptie)).value
     if wb.range("M" + str(nrReceptie)).value is None:
         wb.range("M" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste numar pasaport la pozitia:" + str(nrReceptie - 8),"Nr. pasaport lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste numar pasaport la pozitia:" + str(nrReceptie - 8),
+                                         "Nr. pasaport lipsa!", 0)
         sys.exit()
     else:
         nrPasaport = wb.range("M" + str(nrReceptie)).value
     if wb.range("N" + str(nrReceptie)).value is None:
         wb.range("N" + str(nrReceptie)).color = (235, 52, 52)
-        ctypes.windll.user32.MessageBoxW(0, "Lipseste masina la pozitia:" + str(nrReceptie - 8),"Masina lipsa!", 0)
+        ctypes.windll.user32.MessageBoxW(0, "Lipseste masina la pozitia:" + str(nrReceptie - 8), "Masina lipsa!", 0)
         sys.exit()
     else:
         masina = wb.range("N" + str(nrReceptie)).value
@@ -127,56 +151,67 @@ else:
     for i in range(len(nrCriteriu)):
         if nrCriteriu[i] is None:
             wb.range("C" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(i + nrReceptie - 8),"Nr criteriu lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de criteriu:" + str(i + nrReceptie - 8),
+                                             "Nr criteriu lipsa!", 0)
             sys.exit()
+    # Convertim numerul de criteriu in numar intreg
+    nrCriteriu = [int(nrCriteriu) for nrCriteriu in nrCriteriu]
+
     for i in range(len(varsta)):
         if varsta[i] is None:
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste varsta la pozitia:" + str(i + nrReceptie - 8),"Varsta lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste varsta la pozitia:" + str(nrCriteriu[i]),
+                                             "Varsta lipsa!", 0)
             sys.exit()
     for i in range(len(sex)):
         if sex[i] is None:
             wb.range("H" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste sexul la pozitia:" + str(i + nrReceptie - 8),"Sex lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste sexul la pozitia:" + str(nrCriteriu[i]), "Sex lipsa!", 0)
             sys.exit()
     for i in range(len(rasa)):
         if rasa[i] is None:
             wb.range("I" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste rasa la pozitia:" + str(i + nrReceptie - 8),"Rasa lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste rasa la pozitia:" + str(nrCriteriu[i]), "Rasa lipsa!", 0)
             sys.exit()
     for i in range(len(propietar)):
         if propietar[i] is None:
             wb.range("J" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste propietarul la pozitia:" + str(i + nrReceptie - 8),"Propietar lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste propietarul la pozitia:" + str(nrCriteriu[i]),
+                                             "Propietar lipsa!", 0)
             sys.exit()
     for i in range(len(localitate)):
         if localitate[i] is None:
             wb.range("K" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste localitatea la pozitia:" + str(i + nrReceptie - 8),"Localitate lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste localitatea la pozitia:" + str(nrCriteriu[i]),
+                                             "Localitate lipsa!", 0)
             sys.exit()
     for i in range(len(codExploatatie)):
         if codExploatatie[i] is None:
             wb.range("L" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste codul de exploatatie la pozitia:" + str(i + nrReceptie - 8),"Cod exp lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste codul de exploatatie la pozitia:" + str(nrCriteriu[i]),
+                                             "Cod exp lipsa!", 0)
             sys.exit()
     for i in range(len(nrPasaport)):
         if nrPasaport[i] is None:
             wb.range("M" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de pasaport la pozitia:" + str(i + nrReceptie - 8),"Nr pasaport lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste numarul de pasaport la pozitia:" + str(nrCriteriu[i]),
+                                             "Nr pasaport lipsa!", 0)
             sys.exit()
     for i in range(len(masina)):
         if masina[i] is None:
             wb.range("N" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Lipseste masina la pozitia:" + str(i + nrReceptie - 8),"Masina lipsa!", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Lipseste masina la pozitia:" + str(nrCriteriu[i]),
+                                             "Masina lipsa!", 0)
             sys.exit()
-    nrCriteriu = [int(nrCriteriu) for nrCriteriu in nrCriteriu]
     varsta = [int(varsta) for varsta in varsta]
     rasa = [rasa.strip(' ') for rasa in rasa]
 doctor = int(xw.Book(caleExcel).sheets[foaieCalculAutomat].range("E2").value)
 
 # Verificare rasa inainte de lansare program
 
-listRasa = ["AB ANGUS", "AYRS", "BIVOL", "BU", "BB", "BMM", "BN", "BNR", "BR", "BRAUN", "BRUNA", "CHAROL", "FLECK", "FRIZA", "HER", "HOLL", "JER", "LYM", "MET", "MONTB", "PINZG", "RED HOLL", "RED HOOL", "SIMENT", "SURA", "AUBRAC", "HG"
-                                                                                                                                                                                                                             ""]
+listRasa = ["AB ANGUS", "AYRS", "BIVOL", "BU", "BB", "BMM", "BN", "BNR", "BR", "BRAUN", "BRUNA", "CHAROL", "FLECK",
+            "FRIZA", "HER", "HOLL", "JER", "LYM", "MET", "MONTB", "PINZG", "RED HOLL", "RED HOOL", "SIMENT", "SURA",
+            "AUBRAC", "HG"
+                      ""]
 contineRasa = False
 
 if nrReceptie == lastCell:
@@ -197,7 +232,8 @@ else:
 
         if contineRasa == False:
             wb.range("I" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Reintrodu rasa de la pozitia:" + str(i + nrReceptie - 8), "Rasa incorecta", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Reintrodu rasa de la pozitia:" + str(nrCriteriu[i]),
+                                             "Rasa incorecta", 0)
             sys.exit()
         contineRasa = False
 
@@ -205,7 +241,7 @@ else:
 
 if nrReceptie == lastCell:
     if "F" in sex or "M" in sex:
-       print("")
+        print("")
     else:
         wb.range("H" + str(nrReceptie)).color = (235, 52, 52)
         ctypes.windll.user32.MessageBoxW(0, "Reintrodu sexul de la pozitia:" + str(nrReceptie - 8), "Sex incorect", 0)
@@ -216,7 +252,8 @@ else:
             continue
         else:
             wb.range("H" + str(nrReceptie + i)).color = (235, 52, 52)
-            ctypes.windll.user32.MessageBoxW(0, "Reintrodu sexul de la pozitia:" + str(i + nrReceptie - 8), "Sex incorect", 0)
+            ctypes.windll.user32.MessageBoxW(0, "Reintrodu sexul de la pozitia:" + str(nrCriteriu[i]),
+                                             "Sex incorect", 0)
             sys.exit()
 
 # Verificare crotale duplicate
@@ -227,27 +264,27 @@ for i in range(lastCell - 8):
         if i == j:
             pass
         elif verificareCrotal[i] == verificareCrotal[j]:
-            ctypes.windll.user32.MessageBoxW(0, "Crotalul " + verificareCrotal[i] + " este duplicat la pozitia " + str(i+1) + " si pozitia " + str(j+1),
+            ctypes.windll.user32.MessageBoxW(0, "Crotalul " + str(nrCrotal[i]) + " este duplicat la pozitia " + str(nrCriteriu[i]) + " si pozitia " + str(nrCriteriu[j]),
                                              "Crotal duplicat", 0)
             sys.exit()
 
 # Se selecteaza o celula goala pentru a evita o eroare
 wb.range("E1").select()
 
-#Se va apasa tasta capslock daca este on
+# Se va apasa tasta capslock daca este on
 
 caps_status = win32api.GetKeyState(win32con.VK_CAPITAL)
 
-if caps_status==1:
+if caps_status == 1:
     pyautogui.press("capslock")
 
 # Creare lista de crotale pentru furnizori diferiti
 
-listaCrotale= [
+listaCrotale = [
 
 ]
 
-#Introducere date in p01
+# Introducere date in p01
 
 deschidereConsola("p01")
 pyautogui.press('r')
@@ -258,7 +295,7 @@ pyautogui.press('enter', presses=2)
 
 
 propietarAnterior = wb.range("J" + str(nrReceptie)).value
-#print(propietarAnterior)
+# print(propietarAnterior)
 
 # In cazul in care exita doar o singura receptie avem scriptul asta
 if nrReceptie == lastCell:
@@ -314,7 +351,6 @@ else:
     pyautogui.typewrite("0")
     pyautogui.press("enter")
 
-
     pyautogui.typewrite(masina[0])
     pyautogui.press("enter")
 
@@ -366,7 +402,7 @@ else:
 
     listaCrotale.append(nrCrotal[0])
 
-    for i in range(1,len(propietar)):
+    for i in range(1, len(propietar)):
         if propietarAnterior != propietar[i]:
             pyautogui.press("f4")
             pyautogui.press("d")
@@ -374,10 +410,10 @@ else:
             app.VIF5_7.child_window(title=denumireButonInchidere, control_type="Button").click()
             pyautogui.press("enter")
 
-            #Salvare nr criteriu in sheet-ul de date in cazul in care conexiunea la server este intrerupta
+            # Salvare nr criteriu in sheet-ul de date in cazul in care conexiunea la server este intrerupta
             xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value = nrCriteriu[i] + 1
 
-            #Deschidere post 2
+            # Deschidere post 2
 
             pydirectinput.PAUSE = 0.03
 
@@ -508,14 +544,14 @@ else:
     pyautogui.press("d")
     time.sleep(3)
 
-#Memorare in excel urmatoarea introducere
+# Memorare in excel urmatoarea introducere
 xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value = lastCell - 7
 
 # Inchidere post P01
 app.VIF5_7.child_window(title=denumireButonInchidere, control_type="Button").click()
 pyautogui.press("enter")
 
-#Validare date in p02
+# Validare date in p02
 
 pydirectinput.PAUSE = 0.02
 
@@ -527,7 +563,6 @@ pyautogui.press('b')
 pyautogui.press('e')
 time.sleep(1)
 
- 
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
     pyautogui.typewrite("10301")
@@ -553,7 +588,7 @@ else:
 app.VIF5_7.child_window(title=denumireButonInchidere, control_type="Button").click()
 pyautogui.press("enter")
 
-#Memorare in excel urmatoarea introducere (asta este pentru cand se face doar P02)
+# Memorare in excel urmatoarea introducere (asta este pentru cand se face doar P02)
 xw.Book(caleExcel).sheets[foaieCalculAutomat].range("G3").value = lastCell - 7
 
 # Salvare fisier excel
