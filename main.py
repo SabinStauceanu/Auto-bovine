@@ -9,6 +9,15 @@ from datetime import date
 import win32api, win32con
 import ctypes, sys
 from pathlib import Path
+import locale
+
+# Detectare limba setata pe calculator
+windll = ctypes.windll.kernel32
+windll.GetUserDefaultUILanguage()
+if locale.windows_locale[ windll.GetUserDefaultUILanguage() ] == "en_US":
+    denumireButonInchidere = "Close"
+else:
+    denumireButonInchidere = "Închidere"
 
 # script_dir = str(Path(__file__).parent)
 
@@ -31,7 +40,7 @@ caleExcel = lines[0]
 calePutty = lines[1]
 foaieCalculReceptii = lines[2]
 foaieCalculAutomat = lines[3]
-denumireButonInchidere = lines[4]
+
 # Functie deschidere consola putty
 
 def deschidereConsola(postLucru):
@@ -295,6 +304,7 @@ pyautogui.press('enter', presses=2)
 
 
 propietarAnterior = wb.range("J" + str(nrReceptie)).value
+rasaAnterioara = wb.range("I" + str(nrReceptie)).value
 # print(propietarAnterior)
 
 # In cazul in care exita doar o singura receptie avem scriptul asta
@@ -308,7 +318,10 @@ if nrReceptie == lastCell:
     pyautogui.typewrite(str(doctor))
     pyautogui.press("enter")
     pyautogui.press("f2")
-    pyautogui.typewrite("10301")
+    if rasa == "BIVOL":
+        pyautogui.typewrite("10601")
+    else:
+        pyautogui.typewrite("10301")
     pyautogui.press("enter")
     pyautogui.typewrite(nrCrotal)
     pyautogui.press("enter")
@@ -357,7 +370,10 @@ else:
     pyautogui.typewrite(str(doctor))
     pyautogui.press("enter")
     pyautogui.press("f2")
-    pyautogui.typewrite("10301")
+    if rasa[0] == "BIVOL":
+        pyautogui.typewrite("10601")
+    else:
+        pyautogui.typewrite("10301")
     pyautogui.press("enter")
 
     pyautogui.typewrite(nrCrotal[0])
@@ -403,7 +419,7 @@ else:
     listaCrotale.append(nrCrotal[0])
 
     for i in range(1, len(propietar)):
-        if propietarAnterior != propietar[i]:
+        if propietarAnterior != propietar[i] or rasaAnterioara == "BIVOL":
             pyautogui.press("f4")
             pyautogui.press("d")
             time.sleep(2)
@@ -427,7 +443,10 @@ else:
 
             for j in range(len(listaCrotale)):
                 pyautogui.hotkey('ctrl', 'o')
-                pyautogui.typewrite("10301")
+                if rasa[j] == "BIVOL":
+                    pyautogui.typewrite("10601")
+                else:
+                    pyautogui.typewrite("10301")
                 pyautogui.press("enter")
                 pyautogui.press("f2")
                 pyautogui.press("enter")
@@ -458,7 +477,10 @@ else:
             pyautogui.typewrite(str(doctor))
             pyautogui.press("enter")
             pyautogui.press("f2")
-            pyautogui.typewrite("10301")
+            if rasa[i] == "BIVOL":
+                pyautogui.typewrite("10601")
+            else:
+                pyautogui.typewrite("10301")
             pyautogui.press("enter")
 
             pyautogui.typewrite(nrCrotal[i])
@@ -501,6 +523,7 @@ else:
             pyautogui.press("f2")
             time.sleep(3)
             propietarAnterior = propietar[i]
+            rasaAnterioara = rasa[i]
             listaCrotale.append(nrCrotal[i])
 
         else:
@@ -539,6 +562,7 @@ else:
             pyautogui.press("f2")
             time.sleep(3)
             propietarAnterior = propietar[i]
+            rasaAnterioara = rasa[i]
             listaCrotale.append(nrCrotal[i])
     pyautogui.press("f4")
     pyautogui.press("d")
@@ -565,7 +589,10 @@ time.sleep(1)
 
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
-    pyautogui.typewrite("10301")
+    if rasa == "BIVOL":
+        pyautogui.typewrite("10601")
+    else:
+        pyautogui.typewrite("10301")
     pyautogui.press("enter")
     pyautogui.press("f2")
     pyautogui.press("enter")
@@ -575,7 +602,10 @@ if nrReceptie == lastCell:
 else:
     for i in range(len(listaCrotale)):
         pyautogui.hotkey('ctrl', 'o')
-        pyautogui.typewrite("10301")
+        if rasa[i] == "BIVOL":
+            pyautogui.typewrite("10601")
+        else:
+            pyautogui.typewrite("10301")
         pyautogui.press("enter")
         pyautogui.press("f2")
         pyautogui.press("enter")
