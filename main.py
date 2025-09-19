@@ -304,7 +304,6 @@ pyautogui.press('enter', presses=2)
 
 
 propietarAnterior = wb.range("J" + str(nrReceptie)).value
-rasaAnterioara = wb.range("I" + str(nrReceptie)).value
 # print(propietarAnterior)
 
 # In cazul in care exita doar o singura receptie avem scriptul asta
@@ -318,10 +317,7 @@ if nrReceptie == lastCell:
     pyautogui.typewrite(str(doctor))
     pyautogui.press("enter")
     pyautogui.press("f2")
-    if rasa == "BIVOL":
-        pyautogui.typewrite("10601")
-    else:
-        pyautogui.typewrite("10301")
+    pyautogui.typewrite("10301")
     pyautogui.press("enter")
     pyautogui.typewrite(nrCrotal)
     pyautogui.press("enter")
@@ -370,10 +366,7 @@ else:
     pyautogui.typewrite(str(doctor))
     pyautogui.press("enter")
     pyautogui.press("f2")
-    if rasa[0] == "BIVOL":
-        pyautogui.typewrite("10601")
-    else:
-        pyautogui.typewrite("10301")
+    pyautogui.typewrite("10301")
     pyautogui.press("enter")
 
     pyautogui.typewrite(nrCrotal[0])
@@ -419,7 +412,7 @@ else:
     listaCrotale.append(nrCrotal[0])
 
     for i in range(1, len(propietar)):
-        if propietarAnterior != propietar[i] or rasaAnterioara == "BIVOL":
+        if propietarAnterior != propietar[i]:
             pyautogui.press("f4")
             pyautogui.press("d")
             time.sleep(2)
@@ -443,10 +436,7 @@ else:
 
             for j in range(len(listaCrotale)):
                 pyautogui.hotkey('ctrl', 'o')
-                if rasa[j] == "BIVOL":
-                    pyautogui.typewrite("10601")
-                else:
-                    pyautogui.typewrite("10301")
+                pyautogui.typewrite("10301")
                 pyautogui.press("enter")
                 pyautogui.press("f2")
                 pyautogui.press("enter")
@@ -477,10 +467,7 @@ else:
             pyautogui.typewrite(str(doctor))
             pyautogui.press("enter")
             pyautogui.press("f2")
-            if rasa[i] == "BIVOL":
-                pyautogui.typewrite("10601")
-            else:
-                pyautogui.typewrite("10301")
+            pyautogui.typewrite("10301")
             pyautogui.press("enter")
 
             pyautogui.typewrite(nrCrotal[i])
@@ -562,7 +549,6 @@ else:
             pyautogui.press("f2")
             time.sleep(3)
             propietarAnterior = propietar[i]
-            rasaAnterioara = rasa[i]
             listaCrotale.append(nrCrotal[i])
     pyautogui.press("f4")
     pyautogui.press("d")
@@ -589,10 +575,7 @@ time.sleep(1)
 
 if nrReceptie == lastCell:
     pyautogui.hotkey('ctrl', 'o')
-    if rasa == "BIVOL":
-        pyautogui.typewrite("10601")
-    else:
-        pyautogui.typewrite("10301")
+    pyautogui.typewrite("10301")
     pyautogui.press("enter")
     pyautogui.press("f2")
     pyautogui.press("enter")
@@ -602,10 +585,7 @@ if nrReceptie == lastCell:
 else:
     for i in range(len(listaCrotale)):
         pyautogui.hotkey('ctrl', 'o')
-        if rasa[i] == "BIVOL":
-            pyautogui.typewrite("10601")
-        else:
-            pyautogui.typewrite("10301")
+        pyautogui.typewrite("10301")
         pyautogui.press("enter")
         pyautogui.press("f2")
         pyautogui.press("enter")
