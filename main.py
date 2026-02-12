@@ -435,7 +435,9 @@ else:
             time.sleep(1)
 
             for j in range(len(listaCrotale)):
-                pyautogui.hotkey('ctrl', 'o')
+                pyautogui.keyDown("ctrl")
+                pyautogui.press("o")
+                pyautogui.keyUp("ctrl")
                 pyautogui.typewrite("10301")
                 pyautogui.press("enter")
                 pyautogui.press("f2")
@@ -574,7 +576,9 @@ pyautogui.press('e')
 time.sleep(1)
 
 if nrReceptie == lastCell:
-    pyautogui.hotkey('ctrl', 'o')
+    pyautogui.keyDown("ctrl")
+    pyautogui.press("o")
+    pyautogui.keyUp("ctrl")
     pyautogui.typewrite("10301")
     pyautogui.press("enter")
     pyautogui.press("f2")
@@ -584,7 +588,9 @@ if nrReceptie == lastCell:
     pydirectinput.press("f2")
 else:
     for i in range(len(listaCrotale)):
-        pyautogui.hotkey('ctrl', 'o')
+        pyautogui.keyDown("ctrl")
+        pyautogui.press("o")
+        pyautogui.keyUp("ctrl")
         pyautogui.typewrite("10301")
         pyautogui.press("enter")
         pyautogui.press("f2")
