@@ -33,6 +33,15 @@ lines = f.readlines()
 
 f.close()
 
+# Calea relativa catre fisierul rasa din folderul data
+
+f = open("data\\rasa.txt", "r")
+
+listRasa = f.readlines()
+listRasa = [line.strip() for line in listRasa]
+
+f.close()
+
 for i in range (len(lines)):
     lines[i] = lines[i].replace("\n","")
 
@@ -68,7 +77,7 @@ pydirectinput.FAILSAFE = False
 try:
     xw.Book(caleExcel).sheets[foaieCalculReceptii].select()
 except:
-    ctypes.windll.user32.MessageBoxW(0, "Te rog selecteaza sheet-ul Foaie1", "Eroare selectie sheet!", 0)
+    ctypes.windll.user32.MessageBox(0, "Te rog selecteaza sheet-ul Foaie1", "Eroare selectie sheet!", 0)
     sys.exit()
 
 # Extragere date din excelul de bovine
@@ -217,10 +226,12 @@ doctor = int(xw.Book(caleExcel).sheets[foaieCalculAutomat].range("E2").value)
 
 # Verificare rasa inainte de lansare program
 
+"""
 listRasa = ["AB ANGUS", "AYRS", "BIVOL", "BU", "BB", "BMM", "BN", "BNR", "BR", "BRAUN", "BRUNA", "CHAROL", "FLECK",
             "FRIZA", "HER", "HOLL", "JER", "LYM", "MET", "MONTB", "PINZG", "RED HOLL", "RED HOOL", "SIMENT", "SURA",
             "AUBRAC", "HG"
                       ""]
+"""
 contineRasa = False
 
 if nrReceptie == lastCell:
