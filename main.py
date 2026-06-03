@@ -356,6 +356,8 @@ if nrReceptie == lastCell:
     pyautogui.press("enter")
     pyautogui.typewrite(str(nrCriteriu))
     pyautogui.press("enter")
+    pyautogui.typewrite("RO")
+    pyautogui.press("enter")
     pyautogui.press("f2")
     pyautogui.press("f2")
     time.sleep(1)
@@ -416,6 +418,10 @@ else:
 
     pyautogui.typewrite(str(nrCriteriu[0]))
     pyautogui.press("enter")
+
+    pyautogui.typewrite("RO")
+    pyautogui.press("enter")
+
     pyautogui.press("f2")
     pyautogui.press("f2")
     time.sleep(3)
@@ -519,6 +525,10 @@ else:
 
             pyautogui.typewrite(str(nrCriteriu[i]))
             pyautogui.press("enter")
+
+            pyautogui.typewrite("RO")
+            pyautogui.press("enter")
+
             pyautogui.press("f2")
             pyautogui.press("f2")
             time.sleep(3)
@@ -558,6 +568,10 @@ else:
 
             pyautogui.typewrite(str(nrCriteriu[i]))
             pyautogui.press("enter")
+
+            pyautogui.typewrite("RO")
+            pyautogui.press("enter")
+
             pyautogui.press("f2")
             pyautogui.press("f2")
             time.sleep(3)
